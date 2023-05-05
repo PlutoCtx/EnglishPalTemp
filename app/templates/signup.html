@@ -1,0 +1,29 @@
+{% block body %}
+{% if session['logged_in'] %}
+
+You're logged in already! <a href="/logout">Logout</a>.
+
+{% else %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=3.0, user-scalable=yes" />
+<link rel="stylesheet" href="static/css/login_service.css">
+<p>{{ get_flashed_messages()[0] | safe }}</p>
+
+
+<div class="container">
+
+  <section class="signin-heading">
+    <h1>Sign Up</h1>
+  </section>
+
+  <form action="/signup" method="POST">
+    <p><input type="username" name="username" placeholder="输入用户名" required="required" class="username"></p>
+    <p><input type="password" name="password" placeholder="输入密码" required="required" class="password"></p>
+    <p><input type="password" name="password2" placeholder="确认密码" required="required" class="password" ></p>
+    <button type="submit" class="btn">注册</button>
+  </form>
+
+</div>
+  
+{% endif %}
+{% endblock %}
+

@@ -1,0 +1,22 @@
+{% block body %}
+    <meta charset="utf-8" name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=3.0, user-scalable=yes"/>
+    <link rel="stylesheet" href="static/css/login_service.css">
+
+    <div class="container">
+
+        <section class="reset-heading">
+            <h1>Reset Password</h1>
+        </section>
+
+        <form action="/reset" method="POST">
+            <input type="password" placeholder="原密码" class="old-password" name="old-password" required>
+            <input type="password" placeholder="新密码" class="new-password" name="new-password" required>
+            <input type="password" placeholder="确认新密码" class="re-new-password" name="re-new-password" required>
+            <input type="submit" name="submit" class="btn" value="提交"/>
+            <input type="button" name="submit" class="btn" value="放弃修改"
+                   onclick="window.location.href='/{{ username }}'"/>
+        </form>
+
+    </div>
+{% endblock %}
