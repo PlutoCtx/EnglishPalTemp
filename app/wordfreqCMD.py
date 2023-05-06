@@ -4,13 +4,16 @@
 ###########################################################################
 
 import collections
+import os  # 引入模块sys，因为我要用里面的sys.argv列表中的信息来读取命令行参数。
 import string
-import operator
-import os, sys # 引入模块sys，因为我要用里面的sys.argv列表中的信息来读取命令行参数。
-import pickle_idea
-from nltk import word_tokenize, pos_tag
+import sys
+
+import nltk
+from nltk import pos_tag
 from nltk.corpus import wordnet
 from nltk.stem import WordNetLemmatizer
+
+import pickle_idea
 
 
 def get_wordnet_pos(tag):
@@ -46,7 +49,18 @@ def freq(fruit):
     result = []
     
     fruit = fruit.lower() # 字母转小写
-    flst = fruit.split()  # 字符串转成list
+    # flst = fruit.split()  # 字符串转成list
+    flst = nltk.word_tokenize(fruit)
+
+    '''
+        词根还原 会被截取 不太行
+    '''
+    # porter = nltk.PorterStemmer()
+    # flst02 = [porter.stem(x) for x in flst]
+    #
+    # porter02 = nltk.WordNetLemmatizer()
+    # flst03 = [porter02.lemmatize(x) for x in flst]
+
     lemmas_sent = lemmatize_sent(flst)
     c = collections.Counter(lemmas_sent)
     result = c.most_common()
