@@ -14,29 +14,29 @@ from nltk.corpus import wordnet
 from nltk.stem import WordNetLemmatizer
 
 import pickle_idea
+import snowballstemmer
 
+# def get_wordnet_pos(tag):
+#     if tag.startswith('J'):
+#         return wordnet.ADJ
+#     elif tag.startswith('V'):
+#         return wordnet.VERB
+#     elif tag.startswith('N'):
+#         return wordnet.NOUN
+#     elif tag.startswith('R'):
+#         return wordnet.ADV
+#     else:
+#         return None
 
-def get_wordnet_pos(tag):
-    if tag.startswith('J'):
-        return wordnet.ADJ
-    elif tag.startswith('V'):
-        return wordnet.VERB
-    elif tag.startswith('N'):
-        return wordnet.NOUN
-    elif tag.startswith('R'):
-        return wordnet.ADV
-    else:
-        return None
-
-def lemmatize_sent(flst):
-    tagged_sent = pos_tag(flst)  # 获取单词词性
-    lemmas_sent = []
-
-    wnl = WordNetLemmatizer()
-    for tag in tagged_sent:
-        wordnet_pos = get_wordnet_pos(tag[1]) or wordnet.NOUN
-        lemmas_sent.append(wnl.lemmatize(tag[0], pos=wordnet_pos))  # 词形还原
-    return lemmas_sent
+# def lemmatize_sent(flst):
+#     tagged_sent = pos_tag(flst)  # 获取单词词性
+#     lemmas_sent = []
+#
+#     wnl = WordNetLemmatizer()
+#     for tag in tagged_sent:
+#         wordnet_pos = get_wordnet_pos(tag[1]) or wordnet.NOUN
+#         lemmas_sent.append(wnl.lemmatize(tag[0], pos=wordnet_pos))  # 词形还原
+#     return lemmas_sent
 
 def freq(fruit):
     '''
@@ -61,8 +61,8 @@ def freq(fruit):
     # porter02 = nltk.WordNetLemmatizer()
     # flst03 = [porter02.lemmatize(x) for x in flst]
 
-    lemmas_sent = lemmatize_sent(flst)
-    c = collections.Counter(lemmas_sent)
+    # lemmas_sent = lemmatize_sent(flst)
+    c = collections.Counter(flst)
     result = c.most_common()
     return result
 

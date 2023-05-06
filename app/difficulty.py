@@ -7,8 +7,11 @@
 
 import pickle
 import math
-from wordfreqCMD import remove_punctuation, freq, sort_in_descending_order, sort_in_ascending_order
 
+import snowballstemmer
+
+from wordfreqCMD import remove_punctuation, freq, sort_in_descending_order, sort_in_ascending_order
+from snowballstemmer import EnglishStemmer
 
 def load_record(pickle_fname):
     f = open(pickle_fname, 'rb')
@@ -29,14 +32,31 @@ def difficulty_level_from_frequency(word, d):
     level = min(level, 8) 
     return level
 
+def dict_key_change(dict):
+    stemmer = snowballstemmer.stemmer('english')
+    for key in list(dict):
+        dict[stemmer.stemWord(key)] = dict[key]
+        if key != stemmer.stemWord(key):
+            dict.pop(key)
+    return dict
 
 def get_difficulty_level(d1, d2):
+    stemmer = snowballstemmer.stemmer('english')
     d = {}
-    L = list(d1.keys())  # in d1, we have freuqence for each word
+    d2 = dict_key_change(d2)
+    d1 = dict_key_change(d1)
+    print("difficulty:")
+    print(d1)
+    print("************")
+
+    L = list(d1.keys())  # in d1, we have frequency for each word
     L2 = list(d2.keys()) # in d2, we have test types (e.g., CET4,CET6,BBC) for each word
+
     L.extend(L2)
     L3 = list(set(L)) # L3 contains all words
-    for k in L3:
+
+    L4 = [stemmer.stemWord(word) for word in L3]
+    for k in L4:
         if k in d2:
             if 'CET4' in d2[k]:
                 d[k] = 4 # CET4 word has level 4
@@ -87,7 +107,6 @@ def user_difficulty_level(d_user, d):
                 lst2.append((word, d[word]))
 
         lst3 = sort_in_ascending_order(lst2) # easiest tuple first
-        #print(lst3)
         for t in lst3:
             word = t[0]
             hard = t[1]
@@ -111,7 +130,6 @@ def text_difficulty_level(s, d):
             lst.append((word, d[word]))
 
     lst2 = sort_in_descending_order(lst) # most difficult words on top
-    #print(lst2)
     count = 0
     geometric = 1
     for t in lst2:
@@ -130,10 +148,8 @@ if __name__ == '__main__':
 
 
     d1 = load_record('frequency.p')
-    #print(d1)
 
     d2 = load_record('words_and_tests.p')
-    #print(d2)
 
 
     d3 = get_difficulty_level(d1, d2)

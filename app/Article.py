@@ -43,8 +43,9 @@ def get_today_article(user_word_list, articleID):
     random.shuffle(result)
 
     # Choose article according to reader's level
-    d1 = load_freq_history(path_prefix + 'static/frequency/frequency.p')
+    d1 = load_freq_history(path_prefix + 'static/frequency/frequency_qwertyuiop.pickle')
     d2 = load_freq_history(path_prefix + 'static/words_and_tests.p')
+    print(d1)
     d3 = get_difficulty_level(d1, d2)
 
     d = {}
